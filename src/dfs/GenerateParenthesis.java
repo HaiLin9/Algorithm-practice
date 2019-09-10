@@ -34,7 +34,6 @@ public class GenerateParenthesis {
 
     public static void generateParenthesis(int left, int right){
         if(left==0 && right==0) {
-            System.out.println(curSb);
             result.add(curSb.toString());
             curSb = new StringBuffer();
             return;
@@ -54,7 +53,9 @@ public class GenerateParenthesis {
             generateParenthesis(left-1,right);
             curSb = bak;
             curSb.setCharAt(curSb.length()-1,')');
+            bak = new StringBuffer(curSb);
             generateParenthesis(left, right-1);
+            curSb = bak;
         }
     }
 }
