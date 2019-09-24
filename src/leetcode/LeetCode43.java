@@ -23,4 +23,27 @@ package leetcode;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class LeetCode43 {
+    public static void main(String[] args){
+        multiply("123","456");
+    }
+
+    public static String multiply(String num1, String num2) {
+        if(num1==null||num2==null||num1.length()==0||num2.length()==0){
+            return "0";
+        }
+        char[] num1Chars = num1.toCharArray();
+        char[] num2Chars = num2.toCharArray();
+
+        long result = 0;
+        for(int i=num2Chars.length-1; i>=0; i--) {
+            int numI = (int)num2Chars[i] -(int)'0';
+            numI = i<num2Chars.length-1 ? (int)(numI*Math.pow(10,num2Chars.length-i-1)):numI;
+            for(int j=num1Chars.length-1; j>=0 ; j--) {
+                int numJ = (int)num1Chars[j] -(int)'0';
+                numJ = j<num1Chars.length-1 ? (int)(numJ*Math.pow(10,num1Chars.length-j-1)):numJ;
+                result += numI*numJ;
+            }
+        }
+        return Long.valueOf(result).toString();
+    }
 }
