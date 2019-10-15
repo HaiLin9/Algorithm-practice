@@ -38,24 +38,21 @@ public class LeetCode105 {
         if(preorder==null ||preorder.length==0) {
             return null;
         }
-        int rootVal = preorder[0];
-        int rootIndex = findIndex(inorder,rootVal);
-        TreeNode root = new TreeNode(rootVal);
-
-        int[] inoederLeft =  Arrays.asList(inorder).indexOf(rootVal)
+        return buildTree(preorder,0,preorder.length-1,inorder,0,inorder.length-1);
     }
 
     public TreeNode buildTree(int[] preorder, int p_start, int p_end, int[] inorder, int i_start, int i_end){
-        if (p_start == p_end) {
+        if (p_start > p_end) {
             return null;
         }
         int rootVal = preorder[p_start];
         TreeNode root = new TreeNode(rootVal);
 
         int rootIndex = findIndex(inorder,rootVal);
-        int leftNum =
-        root.left = buildTree(preorder, p_start+1, )
-
+        int leftNum = rootIndex - i_start;
+        root.left = buildTree(preorder, p_start+1, p_start+leftNum, inorder, i_start, rootIndex-1);
+        root.right = buildTree(preorder, p_start + leftNum + 1, p_end, inorder, rootIndex+1, i_end);
+        return root;
     }
 
     public int findIndex(int[] arr, int value) {
