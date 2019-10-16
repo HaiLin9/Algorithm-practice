@@ -51,10 +51,23 @@ public class LeetCode129 {
 
 
     public int sumNumbers(TreeNode root) {
-
+        sumNumber(root,0);
+        return sum;
     }
 
-    public void sumNumber(TreeNode root, int temp){
-
+    public void sumNumber(TreeNode root, int temp) {
+        if(root==null) {
+            return;
+        }
+        int cur = temp * 10 + root.val;
+        if(root.left==null && root.right==null) {
+            sum+=cur;
+        }
+        if(root.left !=null){
+            sumNumber(root.left, cur);
+        }
+        if(root.right!=null){
+            sumNumber(root.right,cur);
+        }
     }
 }
