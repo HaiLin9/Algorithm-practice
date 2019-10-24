@@ -1,5 +1,6 @@
 package leetcode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +38,7 @@ import java.util.List;
 public class LeeCode51 {
 
     public List<List<String>> solveNQueens(int n) {
-
+        List<List<String>> result = new ArrayList<>();
+        return result;
     }
 }
