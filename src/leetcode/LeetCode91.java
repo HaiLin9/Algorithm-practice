@@ -38,16 +38,24 @@ public class LeetCode91 {
             if(s.charAt(i)=='0'){
                 if(s.charAt(i-1) =='0'){
                     return 0;
-                } else if(s.charAt(i-1) >'2'){
-                    return 0;
+                } else if(Integer.parseInt(s.substring(i-1,i+1)) <= 26){
+                    if(i==1){
+                        result[i] = 1;
+                    } else{
+                        result[i] = result[i-2];
+                    }
                 } else{
-                    result[i] = result[i-1];
+                    return 0;
                 }
             } else {
                 if(s.charAt(i-1) =='0'){
                     result[i] = result[i-1];
                 } else if(Integer.parseInt(s.substring(i-1,i+1))<=26){
-                    result[i] = result[i-1]+1;
+                    if(i==1){
+                        result[i] = 2;
+                    } else{
+                        result[i] = result[i-2]+result[i-1];
+                    }
                 } else {
                     result[i] = result[i-1];
                 }
