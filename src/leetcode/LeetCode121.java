@@ -26,9 +26,18 @@ package leetcode;
 public class LeetCode121 {
     public int maxProfit(int[] prices) {
         int minprice = Integer.MAX_VALUE;
-        int maxprice = 0;
+        int maxProfit = 0;
         for(int i=0;i<prices.length;i++){
+            if(i==0){
+                maxProfit = 0;
+            } else if(prices[i]-minprice>maxProfit){
+                maxProfit = prices[i]-minprice;
+            }
 
+            if(prices[i]<minprice){
+                minprice=prices[i];
+            }
         }
+        return maxProfit;
     }
 }
