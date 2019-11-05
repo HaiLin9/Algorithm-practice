@@ -51,8 +51,34 @@ package leetcode;
  */
 public class LeetCode8 {
     public int myAtoi(String str) {
-        if(){
-
+        if(str==null ||str.length()==0){
+            return 0;
         }
+        int positive = 1;
+        int result = 0;
+        int start = 0;
+        for(char c:str.toCharArray()) {
+            if (c == ' ' || c == '\t') {
+                start++;
+            } else {
+                break;
+            }
+        }
+
+        if(start<str.length() && str.charAt(start)=='-'){
+            positive =-1;
+            start ++;
+        } else if(start<str.length() && str.charAt(start)=='+'){
+            positive = 1;
+            start ++;
+        }
+
+        for(int i=start; i<str.length() && str.charAt(i)>='0' && str.charAt(i)<='9'; i++){
+            if(result>Integer.MAX_VALUE/10 || (result==Integer.MAX_VALUE/10 && str.charAt(i)>'7' && str.charAt(i)<='9')){
+                return positive==1? Integer.MAX_VALUE: Integer.MIN_VALUE;
+            }
+            result=result*10 + (str.charAt(i)-'0');
+        }
+        return result*positive;
     }
 }

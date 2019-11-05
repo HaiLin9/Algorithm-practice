@@ -19,7 +19,7 @@ public class LeetCode403 {
         return canCross[stones.length-1];
     }
 
-    public static  void canCross(int[] stones, boolean[] canCross, int k, int index){
+    public static void canCross(int[] stones, boolean[] canCross, int k, int index){
         if(index == 0){
             if(stones.length > 1 && stones[1]-stones[0]<=1){
                 canCross[1] = true;
@@ -27,9 +27,11 @@ public class LeetCode403 {
             }
         } else{
             int next = index+1;
-            while(next < stones.length && stones[next] - stones[index] <=k+1 && stones[next] - stones[index]>=k-1 ){
-                canCross[next] = true;
-                canCross(stones, canCross, stones[next]-stones[index], next);
+            while(next < stones.length ){
+                if(stones[next] - stones[index] <=k+1 && stones[next] - stones[index]>=k-1){
+                    canCross[next] = true;
+                    canCross(stones, canCross, stones[next]-stones[index], next);
+                }
                 next++;
             }
         }
