@@ -1,4 +1,4 @@
-package leetcode.integer;
+package leetcode;
 
 /**
  * 给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
@@ -23,30 +23,28 @@ package leetcode.integer;
  * 链接：https://leetcode-cn.com/problems/divide-two-integers
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-import java.lang.Math;
-
-public class NumDivide {
-
+public class LeetCode29 {
     public int divide(int dividend, int divisor) {
         int positive = 1;
-        positive = ((dividend>0) ^ (divisor>0))? -1 : 1;
-
-        long ms = Math.abs((long)dividend);
-        long ns = Math.abs((long)divisor);
-        int num = 0;
-        while(ms >= ns){
-            long n = 1;
-            long m = ns;
-            while(ms>=(m<<1)){
-                m<<=1;
-                n<<=1;
+        if(dividend>0&&divisor<0 || dividend<0&&divisor>0){
+            positive = -1;
+        }
+        long m = Math.abs((long)dividend);
+        long n = Math.abs((long)divisor);
+        int result = 0;
+        while(m>=n){
+            long nn =n;
+            long div =1;
+            while(m>=(nn<<1)){
+                nn<<=1;
+                div<<=1;
             }
-            if(num > Integer.MAX_VALUE-n){
+            if(result>Integer.MAX_VALUE-div){
                 return Integer.MAX_VALUE;
             }
-            num += n;
-            ms -= m;
+            result += div;
+            m-=nn;
         }
-        return positive * num;
+        return result*positive;
     }
 }
