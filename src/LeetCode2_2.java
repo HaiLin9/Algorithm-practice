@@ -7,69 +7,36 @@
 
 public class LeetCode2_2 {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int carry = 0;
-        ListNode res = null;
-        ListNode tail = null;
-        while(l1!=null && l2!= null){
-            int num = l1.val+l2.val+carry;
+        int carry=0;
+        ListNode head=null, tail =null;
+        while(l1 != null || l2 != null) {
+            int num = carry;
+            if(l1!=null) {
+                num += l1.val;
+                l1 = l1.next;
+            }
+            if(l2!=null) {
+                num += l2.val;
+                l2= l2.next;
+            }
             if(num>=10){
                 carry =1;
             } else {
-                carry =0;
+                carry = 0;
             }
-            if(tail==null){
-                res= new ListNode(num%10);
-                tail = res;
+            if(head == null) {
+                head = new ListNode(num%10);
+                tail = head;
             } else {
-                tail.next = new ListNode(num%10);
-                tail = tail.next;
+                ListNode newNode = new ListNode(num%10);
+                tail.next = newNode;
+                tail = newNode;
             }
-            l1 = l1.next;
-            l2 = l2.next;
         }
-        while(l1!=null) {
-            int num = l1.val+carry;
-            if(num>=10){
-                carry =1;
-            } else {
-                carry =0;
-            }
-            if(tail==null){
-                res= new ListNode(num%10);
-                tail = res;
-            } else {
-                tail.next = new ListNode(num%10);
-                tail = tail.next;
-            }
-            l1 = l1.next;
+        if(carry==1){
+            tail.next = new ListNode(carry);
+            tail = tail.next;
         }
-        while(l2!=null) {
-            int num = l2.val+carry;
-            if(num>=10){
-                carry =1;
-            } else {
-                carry =0;
-            }
-            if(tail==null){
-                res= new ListNode(num%10);
-                tail = res;
-            } else {
-                tail.next = new ListNode(num%10);
-                tail = tail.next;
-            }
-            l2 = l2.next;
-        }
-        if(carry == 1){
-            if(tail==null){
-                res= new ListNode(carry);
-                tail = res;
-            } else {
-                tail.next = new ListNode(carry);
-                tail = tail.next;
-            }
-            carry =0;
-        }
-        return res;
-
+        return head;
     }
 }

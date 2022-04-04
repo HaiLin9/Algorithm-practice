@@ -5,34 +5,34 @@
 public class LeetCode6 {
 
     public String convert(String s, int numRows) {
-        if(numRows==1 || s==null || s.length()==1){
-            return s;
+        StringBuffer[] sbs = new StringBuffer[numRows];
+        for(int i=0;i<sbs.length;i++){
+            sbs[i] = new StringBuffer();
         }
-        StringBuilder[] sbs = new StringBuilder[Math.min(numRows, s.length())];
-        for(int i=0; i<sbs.length; i++){
-            sbs[i] = new StringBuilder();
-        }
-        // 0下  1上
-        int direct =0 ;
-        int index =0 ;
-        for(int i=0;i<s.length() ; i++){
-            sbs[index].append(s.charAt(i));
-            if(index == sbs.length-1 && direct==0){
-                direct=1;
-                index--;
-            } else if(index ==0 && direct==1){
-                direct=0;
-                index++;
-            } else if(direct==0){
-                index++;
-            } else{
-                index--;
+        int status = 0; //0 down
+        int curRow = 0;
+        for(char c:s.toCharArray()) {
+            sbs[curRow].append(c);
+            if(status ==0 ){
+                if(curRow==numRows-1) {
+                    status = 1;
+                    curRow = numRows==1? 0:curRow-1;
+                } else {
+                    curRow++;
+                }
+            } else {
+                if(curRow==0) {
+                    status = 0;
+                    curRow = numRows==1? 0:1;
+                } else {
+                    curRow--;
+                }
             }
         }
-        StringBuilder ret = new StringBuilder();
-        for (StringBuilder row : sbs) {
-            ret.append(row);
+        StringBuffer res = new StringBuffer();
+        for(StringBuffer sb:sbs) {
+            res.append(sb);
         }
-        return ret.toString();
+        return  res.toString();
     }
 }

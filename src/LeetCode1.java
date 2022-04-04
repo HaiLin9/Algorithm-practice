@@ -19,7 +19,7 @@ public class LeetCode1 {
                 result[1] = i;
                 return result;
             }
-            mIndex.put(target-nums[i], i);
+            mIndex.put(target-nums[i], i); //放到后面
         }
         return result;
     }

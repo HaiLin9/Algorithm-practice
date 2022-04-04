@@ -1,36 +1,91 @@
 package socket;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class SocketServer {
     public static void main(String[] args) throws IOException, InterruptedException {
-        int port = 55533;
-        ServerSocket server = new ServerSocket(port);
+        try {
+            // 创建服务端socket
+            ServerSocket serverSocket = new ServerSocket(8089, 50, InetAddress.getByName("192.168.1.4"));
 
-        System.out.println("server将一直等待连接的到来");
-        Socket socket = server.accept();
+            // 创建客户端socket
+            Socket socket = new Socket();
 
-        // 建立好连接后，从socket中获取输入流，并建立缓冲区进行读取
-        InputStream inputStream = socket.getInputStream();
-        byte[] bytes = new byte[1024];
-        int len;
-        StringBuilder sb = new StringBuilder();
-        while ((len = inputStream.read(bytes)) != -1) {
-            //注意指定编码格式，发送方和接收方一定要统一，建议使用UTF-8
-            sb.append(new String(bytes, 0, len,"UTF-8"));
+            //循环监听等待客户端的连接
+            while(true){
+                // 监听客户端
+                socket = serverSocket.accept();
+
+                ServerThread thread = new ServerThread(socket);
+                thread.start();
+
+                InetAddress address=socket.getInetAddress();
+                System.out.println("当前客户端的IP："+address.getHostAddress());
+                Thread.sleep(30);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
         }
-        System.out.println("get message from client: " + sb);
-
-        OutputStream outputStream = socket.getOutputStream();
-        Thread.sleep(100000);
-        outputStream.write("Hello Client,I get the message.".getBytes("UTF-8"));
-        outputStream.close();
-        inputStream.close();
-        socket.close();
-        server.close();
     }
+}
+
+class ServerThread extends Thread {
+
+    private Socket socket = null;
+
+    public ServerThread(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        InputStream is = null;
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        OutputStream os = null;
+        PrintWriter pw = null;
+        try {
+            is = socket.getInputStream();
+            isr = new InputStreamReader(is);
+            br = new BufferedReader(isr);
+
+            String info = null;
+
+            while ((info = br.readLine()) != null) {
+                System.out.println("I am server, and client message:：" + info);
+            }
+            socket.shutdownInput();
+
+            os = socket.getOutputStream();
+            pw = new PrintWriter(os);
+            pw.write("服务器欢迎你");
+
+            pw.flush();
+        } catch (Exception e) {
+            // TODO: handle exception
+        } finally {
+            //关闭资源
+            try {
+                if (pw != null)
+                    pw.close();
+                if (os != null)
+                    os.close();
+                if (br != null)
+                    br.close();
+                if (isr != null)
+                    isr.close();
+                if (is != null)
+                    is.close();
+                if (socket != null)
+                    socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

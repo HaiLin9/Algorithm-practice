@@ -3,18 +3,20 @@
  * @version 2022/1/7
  */
 public class LeetCode104 {
+
+    int maxDepth = 0;
     public int maxDepth(TreeNode root) {
-        return maxDepth(root, 0, 0);
+        maxDepth(root, 1);
+        return maxDepth;
     }
 
-    public int maxDepth(TreeNode root, int curDepth, int maxDepth) {
-        if(root ==null){
-            return maxDepth;
+    public void maxDepth(TreeNode root, int curDepth) {
+        if(root == null){
+            return;
         }
-        ++curDepth;
-        int newMaxdepth = curDepth > maxDepth? curDepth: maxDepth;
-        int leftMax = maxDepth(root.left, curDepth, newMaxdepth);
-        int rightMax = maxDepth(root.right, curDepth, newMaxdepth);
-        return leftMax>rightMax? leftMax: rightMax;
+        maxDepth = Math.max(maxDepth, curDepth);
+        int newDepth = curDepth+1;
+        maxDepth(root.left, newDepth);
+        maxDepth(root.right, newDepth);
     }
 }
