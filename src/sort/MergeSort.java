@@ -10,28 +10,28 @@ public class MergeSort {
     }
 
     public static void mergeSort(int[] arr, int left, int right){
-        if(left < right) {
-             int mid = (left+right) / 2;
-             mergeSort(arr, left, mid);
-             mergeSort(arr, mid+1, right);
-             merge(arr, left, mid, right);
+        if(left < right){
+            int mid = (left +right)/2;
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid+1, right);
+            merge(arr, left, mid, right);
         }
     }
 
-    public static void merge(int[]arr, int l, int m, int r) {
-        int[] temp = new int[r-l+1];
-        int i = 0;
-        int p = l;
-        int q = m + 1;
-        while(p<=m && q<=r){
-            temp[i++] = arr[p] > arr[q]? arr[q++]: arr[p++];
+    public static void merge(int[] arr, int left, int mid, int right){
+        int[] temp = new int[right - left + 1];
+        int index =0;
+        int p=left;
+        int q=mid+1;
+        while(p<=mid && q<=right) {
+            temp[index++] = arr[p]<arr[q]? arr[p++]:arr[q++];
         }
-        while (p<=m) {
-            temp[i++] = arr[p++];
+        while(p<=mid) {
+            temp[index++] = arr[p++];
         }
-        while (q<=r) {
-            temp[i++] = arr[q++];
+        while(q<=right) {
+            temp[index++] = arr[q++];
         }
-        System.arraycopy(temp, 0, arr, l, r-l+1);
+        System.arraycopy(temp, 0, arr, left, right - left + 1);
     }
 }

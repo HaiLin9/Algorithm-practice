@@ -14,40 +14,26 @@ class ListNode {
 }
 public class LeetCode2 {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode result = null;
-        ListNode tail = null;
-        long n1 =0, n2=0;
-        long base = 1;
-        while(l1!=null){
-            n1+= l1.val * base;
-            l1= l1.next;
-            base*=10;
-        }
-        base = 1;
-        while(l2!=null){
-            n2+= (l2.val * base);
-            l2= l2.next;
-            base*=10;
-        }
-
-        n1 +=n2;
-        if(n1==0){
-            return new ListNode(0);
-        }
-        while(n1!=0){
-            long val = n1%10;
-            n1/=10;
-            ListNode tmp = new ListNode((int)val, null);
-            if(result == null) {
-                result =tmp;
+        ListNode dum = new ListNode(-1);
+        ListNode tail = dum;
+        int carry =0;
+        while(l1 != null || l2 != null){
+            int num  = carry;
+            if(l1!=null){
+                num += l1.val;
+                l1 = l1.next;
             }
-            if(tail==null){
-                tail = tmp;
-            } else{
-                tail.next = tmp;
-                tail = tail.next;
+            if(l2!=null){
+                num += l2.val;
+                l2 = l2.next;
             }
+            carry = num >= 10? 1: 0;
+            tail.next = new ListNode(num%10);
+            tail = tail.next;
         }
-        return result;
+        if(carry>0) {
+            tail.next = new ListNode(carry);
+        }
+        return dum.next;
     }
 }

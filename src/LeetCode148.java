@@ -1,59 +1,52 @@
 public class LeetCode148 {
     public ListNode sortList(ListNode head) {
-        if(head.next == null){
-            return head;
-        }
-        ListNode cur = head;
-        while(cur.next!=null){
-            cur= cur.next;
-        }
-        return sortList(head, cur);
-    }
-
-    public ListNode sortList(ListNode head, ListNode tail) {
         if(head==null || head.next==null){
             return head;
         }
         ListNode fast = head;
         ListNode slow = head;
-        while(fast!=tail) {
+        while(fast.next != null){
             fast = fast.next;
-            if(fast!=tail) {
+            if(fast.next != null){
                 fast = fast.next;
                 slow = slow.next;
             }
         }
-        ListNode next = slow.next;
-        slow.next = null;
-        ListNode head1 = sortList(head, slow);
-        ListNode head2 = sortList(next, tail);
+        ListNode head1 = head;
+        ListNode head2 =  slow.next;
+        slow.next=null;
+        head1 = sortList(head1);
+        head2 = sortList(head2);
         return merge(head1, head2);
     }
 
-    public ListNode merge(ListNode head1, ListNode head2) {
-        ListNode dum = new ListNode();
+    public ListNode merge(ListNode head1,  ListNode head2){
+        ListNode dum = new ListNode(-1);
         ListNode tail = dum;
-        while(head1!=null && head2!=null){
-            if(head1.val>head2.val){
+        while(head1!=null && head2!=null) {
+            if(head1.val > head2.val) {
                 tail.next = head2;
-                tail= head2;
-                head2= head2.next;
+                tail = tail.next;
+                head2 = head2.next;
             } else {
                 tail.next = head1;
-                tail= head1;
-                head1= head1.next;
+                tail = tail.next;
+                head1 = head1.next;
             }
         }
         while(head1!=null){
             tail.next = head1;
-            tail= head1;
-            head1= head1.next;
+            tail = tail.next;
+            head1 = head1.next;
         }
         while(head2!=null){
             tail.next = head2;
-            tail= head2;
-            head2= head2.next;
+            tail = tail.next;
+            head2 = head2.next;
         }
         return dum.next;
     }
+
+
+
 }

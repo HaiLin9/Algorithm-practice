@@ -1,7 +1,12 @@
 
 
 public class ipToInt {
+
     public static long ipToInt(String ip){
+        ThreadLocal<String> tl = new ThreadLocal<>();
+        tl.set("123");
+        tl.get();
+        tl.remove();
         String[] fields = ip.split("\\.");
         System.out.println(ip);
         if(fields.length != 4){
