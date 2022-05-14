@@ -8,19 +8,17 @@ import java.util.Map;
 public class LeetCode1 {
 
     public int[] twoSum(int[] nums, int target) {
-        if(nums == null ||nums.length<=1){
+        if(nums.length<2){
             return new int[0];
         }
-        int[] result = new int[2];
-        Map<Integer, Integer> mIndex = new HashMap<>();
-        for(int i =0; i<nums.length ;i++) {
-            if(mIndex.containsKey(nums[i])){
-                result[0] = mIndex.get(nums[i]);
-                result[1] = i;
-                return result;
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i=0;i< nums.length;i++){
+            int temp = target - nums[i];
+            if(map.containsKey(temp)){
+                return new int[]{map.get(temp), i};
             }
-            mIndex.put(target-nums[i], i); //放到后面
+            map.put(nums[i], i);
         }
-        return result;
+        return new int[0];
     }
 }

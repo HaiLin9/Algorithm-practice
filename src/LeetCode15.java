@@ -7,30 +7,34 @@ import java.util.*;
 public class LeetCode15 {
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        if(nums == null || nums.length<3) {
-            return  res;
+        if(nums.length<3){
+            return res;
         }
         Arrays.sort(nums);
-        for(int i=0;i<nums.length;i++){
+        for(int i=0;i< nums.length-2;i++){
             if(i>0 && nums[i]==nums[i-1]){
                 continue;
             }
-            int sum = -nums[i];
-            Map<Integer, Integer> tmp = new HashMap<>();
-            for(int j=i+1;j<nums.length;j++){
-                if(tmp.containsKey(nums[j])){
-                    if(tmp.get(nums[j])>0){
-                        List<Integer> re = new ArrayList<>();
-                        re.add(nums[i]);
-                        re.add(nums[tmp.get(nums[j])]);
-                        re.add(nums[j]);
-                        if(nums[i] <= nums[tmp.get(nums[j])] && nums[tmp.get(nums[j])]<= nums[j]){
-                            res.add(re);
-                            tmp.put(nums[j], -1);
-                        }
-                    }
+            int target = -nums[i];
+            int start = i+1;
+            int end = nums.length-1;
+            while(start<end){
+                if(start>i+1 && nums[start] == nums[start-1]){
+                    start++;
+                    continue;
+                }
+                if(nums[start] + nums[end]<target){
+                    start++;
+                } else if(nums[start] + nums[end]>target){
+                    end--;
                 } else {
-                    tmp.put(sum-nums[j], j);
+                    List<Integer> r = new ArrayList<>();
+                    r.add(nums[i]);
+                    r.add(nums[start]);
+                    r.add(nums[end]);
+                    res.add(r);
+                    start++;
+                    end--;
                 }
             }
         }
