@@ -5,34 +5,38 @@
 public class LeetCode6 {
 
     public String convert(String s, int numRows) {
-        StringBuffer[] sbs = new StringBuffer[numRows];
-        for(int i=0;i<sbs.length;i++){
-            sbs[i] = new StringBuffer();
+        if(numRows == 1){
+            return s;
         }
-        int status = 0; //0 down
-        int curRow = 0;
-        for(char c:s.toCharArray()) {
-            sbs[curRow].append(c);
-            if(status ==0 ){
-                if(curRow==numRows-1) {
-                    status = 1;
-                    curRow = numRows==1? 0:curRow-1;
+        StringBuilder[] res = new StringBuilder[numRows];
+        for(int i=0;i<res.length;i++){
+            res[i] = new StringBuilder();
+        }
+        int index =0;
+        int row = 0;
+        boolean down = true;
+        while(index<s.length()){
+            res[row].append(s.charAt(index++));
+            if(down) {
+                if(row == numRows-1){
+                    down = false;
+                    row--;
                 } else {
-                    curRow++;
+                    row++;
                 }
             } else {
-                if(curRow==0) {
-                    status = 0;
-                    curRow = numRows==1? 0:1;
+                if(row == 0){
+                    down = true;
+                    row++;
                 } else {
-                    curRow--;
+                    row--;
                 }
             }
         }
-        StringBuffer res = new StringBuffer();
-        for(StringBuffer sb:sbs) {
-            res.append(sb);
+        StringBuilder re = new StringBuilder();
+        for(StringBuilder sb : res){
+            re.append(sb);
         }
-        return  res.toString();
+        return re.toString();
     }
 }

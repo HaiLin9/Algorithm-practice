@@ -4,19 +4,20 @@
  */
 public class LeetCode11 {
     public int maxArea(int[] height) {
-        int i=0;
-        int j=height.length-1;
-        int max = Math.min(height[i],height[j]) * (j-i);
-        while(i<j){
-            if((Math.min(height[i],height[j]) * (j-i)) > max){
-                max = Math.min(height[i],height[j]) * (j-i);
-            }
-            if(height[i]<height[j]){
-                i++;
+        // 关键字：左右两边
+        // 需要移动两头的问题，需要考虑双指针
+        int max = 0;
+        int left=0;
+        int right = height.length-1;
+        while(left<right){
+            int area = (right - left) * Math.min(height[left], height[right]);
+            max = Math.max(max, area);
+            if(height[left]<height[right]){
+                left++;
             } else {
-                j--;
+                right--;
             }
         }
-        return max;
+        return  max;
     }
 }
