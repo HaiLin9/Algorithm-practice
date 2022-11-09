@@ -10,15 +10,15 @@ import java.util.Set;
  */
 public class LeetCode3 {
         public static int lengthOfLongestSubstring(String s) {
-            Map<Character, Integer> map = new HashMap<>();
             int max =0;
-            int start =0;
-            for(int i=0;i<s.length();i++){
-                if(map.containsKey(s.charAt(i)) && map.get(s.charAt(i))>=start){
-                    start = map.get(s.charAt(i)) + 1;
+            for(int start=0;start<s.length();start++){
+                Set<Character> set = new HashSet<>();
+                int j=start;
+                while(j<s.length() && !set.contains(s.charAt(j))){
+                    set.add(s.charAt(j));
+                    j++;
                 }
-                max = Math.max(i-start+1, max);
-                map.put(s.charAt(i), i);
+                max = Math.max(max, j-start);
             }
             return max;
         }

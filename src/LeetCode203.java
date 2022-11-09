@@ -1,18 +1,16 @@
 public class LeetCode203 {
     public ListNode removeElements(ListNode head, int val) {
-        ListNode dum = new ListNode(-1);
-        dum.next = head;
-        ListNode pre = dum;
+        while(head!=null && head.val == val){
+            head = head.next;
+        }
         ListNode cur = head;
-        while(cur!=null) {
-            if(cur.val==val) {
-                pre.next = cur.next;
-                cur = cur.next;
+        while(cur!=null && cur.next!=null) {
+            if(cur.next.val == val) {
+                cur.next = cur.next.next;
             } else {
-                pre = cur;
                 cur = cur.next;
             }
         }
-        return dum.next;
+        return head;
     }
 }

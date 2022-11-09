@@ -4,29 +4,17 @@
  */
 public class LeetCode24 {
     public ListNode swapPairs(ListNode head) {
-        if(head == null || head.next == null){
-            return head;
-        }
-        ListNode first = head;
-        ListNode second = head.next;
-        ListNode pre = null;
-        head = second;
-        while (first != null && second != null) {
-            ListNode tmp = second.next;
+        ListNode dumNode = new ListNode();
+        dumNode.next = head;
+        ListNode cur = dumNode;
+        while(cur.next!=null && cur.next.next!=null) {
+            ListNode first = cur.next;
+            ListNode second = cur.next.next;
+            cur.next = second;
+            first.next = second.next;
             second.next = first;
-            first.next = tmp;
-            if(pre != null){
-                pre.next = second;
-            }
-            if(tmp!=null){
-                pre = first;
-                first = tmp;
-                second = tmp.next;
-            } else {
-                break;
-            }
+            cur = first;
         }
-        return head;
-
+        return dumNode.next;
     }
 }
