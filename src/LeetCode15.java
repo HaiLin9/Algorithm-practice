@@ -7,34 +7,31 @@ import java.util.*;
 public class LeetCode15 {
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        if(nums.length<3){
-            return res;
-        }
         Arrays.sort(nums);
         for(int i=0;i< nums.length-2;i++){
             if(i>0 && nums[i]==nums[i-1]){
                 continue;
             }
             int target = -nums[i];
-            int start = i+1;
-            int end = nums.length-1;
-            while(start<end){
-                if(start>i+1 && nums[start] == nums[start-1]){
-                    start++;
-                    continue;
-                }
-                if(nums[start] + nums[end]<target){
-                    start++;
-                } else if(nums[start] + nums[end]>target){
-                    end--;
+            int left = i+1;
+            int right = nums.length-1;
+            Set<Integer> s = new HashSet<>();
+            while(left<right){
+                if(nums[left]+nums[right]>target){
+                    right--;
+                } else if(nums[left]+nums[right]<target){
+                    left++;
                 } else {
-                    List<Integer> r = new ArrayList<>();
-                    r.add(nums[i]);
-                    r.add(nums[start]);
-                    r.add(nums[end]);
-                    res.add(r);
-                    start++;
-                    end--;
+                    if (!s.contains(nums[left])){
+                        List<Integer> l = new ArrayList<>();
+                        l.add(nums[i]);
+                        l.add(nums[left]);
+                        l.add(nums[right]);
+                        res.add(l);
+                        s.add(nums[left]);
+                    }
+                    left++;
+                    right--;
                 }
             }
         }

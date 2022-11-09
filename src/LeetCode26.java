@@ -4,15 +4,14 @@
  */
 public class LeetCode26 {
     public int removeDuplicates(int[] nums) {
-        if(nums.length ==1){
-            return 1;
-        }
-        int res=0;
-        for(int i=1;i<nums.length;i++){
-            if(nums[i]>nums[i-1]){
-                nums[++res] = nums[i];
+        int next =0;
+        for(int i=1; i< nums.length ;i++){
+            if(nums[i]==nums[next]){
+                continue;
+            } else {
+                nums[++next] = nums[i];
             }
         }
-        return res+1;
+        return next+1;
     }
 }
