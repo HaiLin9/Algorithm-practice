@@ -10,29 +10,26 @@ import java.util.List;
 public class LeetCode22 {
     public List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        generateParenthesis(res, sb, 0, n);
+        help(res, new StringBuilder(), 0, n);
         return res;
     }
 
-    public void generateParenthesis(List<String> res, StringBuilder sb, int left, int n) {
-        if(n==0){
-            int oriLeft = left;
-            while (left>0) {
-                sb.append(")");
-                left--;
-            }
-            res.add(sb.toString());
-            sb.delete(sb.length() - oriLeft, sb.length());
+    public void help(List<String> res, StringBuilder cur, int left, int n){
+        if(cur.length()==2*n){
+            res.add(cur.toString());
             return;
         }
-        sb.append("(");
-        generateParenthesis(res, sb, left+1, n-1);
-        sb.delete(sb.length()-1, sb.length());
         if(left>0){
-            sb.append(")");
-            generateParenthesis(res, sb, left-1, n);
-            sb.delete(sb.length()-1, sb.length());
+            cur.append(")");
+            help(res, cur, left-1, n);
+            cur.delete(cur.length()-1,cur.length());
+        }
+        if(cur.length()+left<2*n){
+            cur.append("(");
+            help(res, cur, left+1, n);
+            cur.delete(cur.length()-1,cur.length());
         }
     }
+
+
 }

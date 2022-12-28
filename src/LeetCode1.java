@@ -12,11 +12,11 @@ public class LeetCode1 {
             return new int[0];
         }
         Map<Integer,Integer> m = new HashMap<>();
-        for(int i=0;i < nums.length;i++){
+        for(int i=0;i< nums.length;i++){
             if(m.containsKey(target-nums[i])){
                 return new int[]{m.get(target-nums[i]), i};
             }
-            m.put(nums[i],i);
+            m.put(nums[i], i);
         }
         return new int[0];
     }

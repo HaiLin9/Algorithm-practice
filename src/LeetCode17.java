@@ -11,10 +11,6 @@ import static javax.swing.UIManager.put;
  */
 public class LeetCode17 {
     public List<String> letterCombinations(String digits) {
-        List<String> res = new ArrayList<>();
-        if(digits ==null ||digits.length()==0){
-            return res;
-        }
         Map<Character, String> phoneMap = new HashMap<Character, String>() {{
             put('2', "abc");
             put('3', "def");
@@ -25,23 +21,25 @@ public class LeetCode17 {
             put('8', "tuv");
             put('9', "wxyz");
         }};
-        letterCombinations(phoneMap, res, "", digits);
+        List<String> res = new ArrayList<>();
+        help(digits, 0, res, "", phoneMap);
         return res;
     }
 
-    public void  letterCombinations(final Map<Character, String> phoneMap,List<String> res, String cur, String digits) {
-        if(digits.length()==1){
-            char first = digits.charAt(0);
-            String all = phoneMap.get(first);
-            for(char a:all.toCharArray()){
-                res.add(cur + a);
+    public void help(String digits, int index, List<String> res, String cur, Map<Character, String> phoneMap) {
+        if(index==digits.length()){
+            if (cur.length()>0){
+                res.add(cur);
             }
-        } else {
-            char first = digits.charAt(0);
-            String all = phoneMap.get(first);
-            for(char a:all.toCharArray()){
-                letterCombinations(phoneMap, res, cur + a, digits.substring(1));
-            }
+            return;
+        }
+        String s = phoneMap.get(digits.charAt(index));
+        for (char c:s.toCharArray()){
+            cur = cur + c;
+            help(digits, index+1, res, cur, phoneMap);
+            cur = cur.substring(0, cur.length()-1);
         }
     }
+
+
 }

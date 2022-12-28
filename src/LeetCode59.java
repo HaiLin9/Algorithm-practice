@@ -1,31 +1,55 @@
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class LeetCode59 {
-    public int[][] generateMatrix(int n) {
-        int[][] res = new int[n][n];
-        int num =1;
-        int left =0,right=n-1;
-        int top=0, bottom=n-1;
-        while(left <= right && top <= bottom){
-            if(left == right && top==bottom){
-                res[top][left] = num++;
-                break;
-            }
-            for(int j=left;j<right;j++){
-                res[top][j] = num++;
-            }
-            for(int i =top; i<bottom; i++){
-                res[i][right] = num++;
-            }
-            for(int j=right;j>left;j--){
-                res[bottom][j] = num++;
-            }
-            for(int i=bottom; i>top;i--){
-                res[i][left] = num++;
-            }
-            left++;
-            right--;
-            top++;
-            bottom--;
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int[] res = new int[nums.length -k+1];
+        MaxQueue2 que = new MaxQueue2();
+        for(int i=0 ; i<k;i++){
+            que.push(nums[i]);
+        }
+        res[0]= que.max();
+        for(int i=k,j=1;i< nums.length; i++){
+            que.pop();
+            que.push(nums[i]);
+            res[j++]=que.max();
         }
         return res;
+    }
+}
+
+class MaxQueue2 {
+    Queue<Integer> queue ;
+    Deque<Integer> deque ;
+    MaxQueue2(){
+        queue = new LinkedList<>();
+        deque = new LinkedList<>();
+    }
+
+    void push(int val){
+        queue.offer(val);
+        while(!deque.isEmpty() && deque.peekLast()<val){
+            deque.pollLast();
+        }
+        deque.offerLast(val);
+    }
+
+    int pop(){
+        if (queue.isEmpty()){
+            return -1;
+        }
+        int v= queue.poll();
+        if(!deque.isEmpty() && deque.peekFirst() == v ){
+            deque.pollFirst();
+        }
+        return v;
+    }
+
+    int max(){
+        if(deque.isEmpty()){
+            return -1;
+        }
+        return deque.peekFirst();
     }
 }
