@@ -9,21 +9,25 @@ import java.util.Set;
  * 暴力解法
  */
 public class LeetCode3 {
-        public static int lengthOfLongestSubstring(String s) {
-            int max =0;
-            for(int start=0;start<s.length();start++){
-                Set<Character> set = new HashSet<>();
-                int j=start;
-                while(j<s.length() && !set.contains(s.charAt(j))){
-                    set.add(s.charAt(j));
-                    j++;
-                }
-                max = Math.max(max, j-start);
-            }
-            return max;
+    public int lengthOfLongestSubstring(String s) {
+        if(s==null || s.length()==0){
+            return 0;
         }
-
-    public static void main(String[] args) {
-        lengthOfLongestSubstring("abba");
+        int res = 1;
+        int start =0;
+        int end=0;
+        Map<Character, Integer> map = new HashMap<>();
+        while(end<s.length()){
+            while(end<s.length() && (!map.containsKey(s.charAt(end)) ||map.containsKey(s.charAt(end)) && map.get(s.charAt(end))<start)){
+                map.put(s.charAt(end), end);
+                res = Math.max(res, end-start+1);
+                end++;
+            }
+            if(end<s.length()) {
+                start = map.get(s.charAt(end)) +1;
+            }
+        }
+        return res;
     }
+
 }
